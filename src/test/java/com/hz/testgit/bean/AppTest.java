@@ -1,4 +1,4 @@
-package com.hz;
+package com.hz.testgit.bean;
 
 import static org.junit.Assert.assertTrue;
 
