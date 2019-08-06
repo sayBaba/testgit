@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper:根标签，namespace：命名空间，和接口保持一致-->
+<mapper namespace="com.hz.testgit.dao.UserDao">
+    
+    <select id="queryUserById" resultType="com.hz.testgit.bean.User">
+
+	select
+		tuser.id as id,
+		tuser.user_name as userName,
+		tuser.password as password,
+		tuser.name as name,
+		tuser.age as age,
+		tuser.birthday as birthday,
+		tuser.sex as sex,
+		tuser.created as created,
+		tuser.updated as updated
+	from
+		tb_user tuser
+	where tuser.id = #{id};
+
+    </select>
+
+    <!--插入数据 -->
+    <insert id="insertUser" parameterType="com.hz.testgit.bean.User">
+		INSERT INTO tb_user (
+		id,
+		user_name,
+		password,
+		name,
+		age,
+		sex,
+		birthday,
+		created,
+		updated
+		)
+		VALUES
+		(
+	    #{id},
+		#{userName},
+		#{password},
+		#{name},
+		#{age},
+		#{sex},
+		#{birthday},
+		now(),
+		now()
+		);
+	</insert>
+
+
+</mapper>
