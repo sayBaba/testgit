@@ -1,6 +1,8 @@
 package com.hz.testgit.dao;
 
+import com.hz.testgit.bean.Order;
 import com.hz.testgit.bean.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,6 +46,41 @@ public interface UserDao {
      * @param id
      */
     public void deleteUser(String id);
+
+    /**
+     * 根据姓名模糊查询
+     * @param name
+     * @return
+     */
+    public List<User> queryUserInfoByName(@Param("name") String name);
+
+    /**
+     * 根据年龄和姓名查询
+     * @param name
+      * @param age
+     * @return
+     */
+    public List<User> queryUserInfoByNameAndAge(@Param("name") String name,@Param("age") String age);
+
+
+    /**
+     *
+     * @param u
+     * @return
+     */
+    public List<User> queryUserListByNameAndAge(User u);
+
+    /**
+     *
+     * @return
+     */
+    public List<User> queryUserInfoByList(@Param("ids") String []str);
+
+
+    User queryUserInfo(int id);
+
+
+    public Order selectByPrimaryKey(int id);
 
 
 }

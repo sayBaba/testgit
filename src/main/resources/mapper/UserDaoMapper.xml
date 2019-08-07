@@ -4,8 +4,30 @@
 
 <!-- mapper:根标签，namespace：命名空间，和接口保持一致-->
 <mapper namespace="com.hz.testgit.dao.UserDao">
-    
-    <select id="queryUserById" resultType="com.hz.testgit.bean.User">
+
+    <resultMap id="userMap" type="com.hz.testgit.bean.User">
+        <!--对信息进行映射配置  -->
+        <id column="id" property="id" jdbcType="CHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="birthday" property="birthday" jdbcType="DATE"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="updated" property="updated" jdbcType="TIMESTAMP"/>
+
+        <association property="order" javaType="com.hz.testgit.bean.Order" select="selectByPrimaryKey" column="id">
+        </association>
+
+    </resultMap>
+
+    <select id="queryUserInfo" resultMap="userMap">
+        SELECT * FROM tb_user where id = #{id}
+  </select>
+
+
+<!--    <select id="queryUserById" resultType="com.hz.testgit.bean.Usercom.hz.testgit.bean.User">
 
 	select
 		tuser.id as id,
@@ -21,7 +43,105 @@
 		tb_user tuser
 	where tuser.id = #{id};
 
+    </select>-->
+    
+    
+    <select id="queryUserInfoByName" parameterType="java.lang.String" resultType="com.hz.testgit.bean.User">
+        select
+        tuser.id as id,
+		tuser.user_name as userName,
+		tuser.password as password,
+		tuser.name as name,
+		tuser.age as age,
+		tuser.birthday as birthday,
+		tuser.sex as sex,
+		tuser.created as created,
+		tuser.updated as updated
+		from 	tb_user tuser
+		where tuser.sex = 1
+
+		<if test="name!=null and name.trim()!= ''">
+            and tuser.name like '%${name}%'
+        </if>
+
     </select>
+
+    <select id="queryUserInfoByNameAndAge" parameterType="java.lang.String" resultType="com.hz.testgit.bean.User">
+
+        select
+        tuser.id as id,
+		tuser.user_name as userName,
+		tuser.password as password,
+		tuser.name as name,
+		tuser.age as age,
+		tuser.birthday as birthday,
+		tuser.sex as sex,
+		tuser.created as created,
+		tuser.updated as updated
+		from 	tb_user tuser
+        where  1 = 1
+
+        <choose>
+            <when test=" name!=null and name.trim()!=''">
+                and tuser.name like '%${name}%'
+            </when>
+            <when test=" age!=null and age.trim()!=''">
+                and tuser.age =  #{age,jdbcType=INTEGER}
+            </when>
+            <otherwise>
+                and tuser.name = '小张'
+            </otherwise>
+        </choose>
+
+
+    </select>
+
+
+    <select id="queryUserListByNameAndAge" parameterType="com.hz.testgit.bean.User" resultType="com.hz.testgit.bean.User">
+        select
+        tuser.id as id,
+		tuser.user_name as userName,
+		tuser.password as password,
+		tuser.name as name,
+		tuser.age as age,
+		tuser.birthday as birthday,
+		tuser.sex as sex,
+		tuser.created as created,
+		tuser.updated as updated
+		from 	tb_user tuser
+		<where>
+            <if test="name!=null and name.trim()!= ''">
+            and tuser.name like '%${name}%'
+            </if>
+
+            <if test="age!=null">
+                and tuser.age =  ${age}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <select id="queryUserInfoByList" resultType="com.hz.testgit.bean.User">
+     select
+        tuser.id as id,
+		tuser.user_name as userName,
+		tuser.password as password,
+		tuser.name as name,
+		tuser.age as age,
+		tuser.birthday as birthday,
+		tuser.sex as sex,
+		tuser.created as created,
+		tuser.updated as updated
+		from 	tb_user tuser
+		where id in
+		<foreach collection="ids" item="id" open="(" close=")"  separator=",">
+            #{id}
+        </foreach>
+
+    </select>
+
 
     <!--插入数据 -->
     <insert id="insertUser" parameterType="com.hz.testgit.bean.User">
@@ -49,6 +169,29 @@
 		now()
 		);
 	</insert>
+    
+    
+    <update id="updateUser" parameterType="com.hz.testgit.bean.User">
+        update tb_user
+            <trim prefix="set" suffixOverrides=",">
+            <if test=" name!=null and name.trim()!=''">
+                name = #{name},
+            </if>
+
+                <if test=" password!=null and password.trim()!=''">
+                    password = #{password},
+                </if>
+                  updated = now(),
+            </trim>
+
+            where id = #{id}
+    </update>
+
+
+    <select id="selectByPrimaryKey" resultType="com.hz.testgit.bean.Order">
+		select * from tb_order where id = #{id}
+	</select>
+    
 
 
 </mapper>

@@ -1,8 +1,9 @@
 package com.hz.testgit.bean;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
 
     private String id;
     private String userName;
@@ -13,6 +14,16 @@ public class User {
     private Date birthday;
     private String created;
     private String updated;
+
+    private Order order;
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public String getId() {
         return id;
