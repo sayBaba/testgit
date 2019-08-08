@@ -13,7 +13,7 @@
         <setting name="cacheEnabled" value="true"/>
 
      <!-- 设置积极懒加载,默认值是true -->
-     <setting name="lazyLoadingEnabled" value="false" />
+     <setting name="lazyLoadingEnabled" value="true" />
      <setting name="aggressiveLazyLoading" value="false" />
      <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
 

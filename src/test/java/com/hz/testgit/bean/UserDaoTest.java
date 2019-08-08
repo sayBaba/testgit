@@ -131,7 +131,7 @@ public class UserDaoTest {
 //        System.out.println(list.get(0).getOrder());
 //        sqlSession.clearCache();
 
-//        Order o = user.getOrder();
+        Order o = user.getOrder();
 //        System.out.println("-----------"+ o.getOrderId());
     }
 
